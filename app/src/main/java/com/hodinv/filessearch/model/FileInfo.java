@@ -43,11 +43,15 @@ public class FileInfo implements Parcelable {
     }
 
     public boolean isImage() {
-        return fileExtention.toLowerCase().equals(".jpg") || fileExtention.toLowerCase().equals(".png");
+        return fileExtention.toLowerCase().equals(".jpg") || fileExtention.toLowerCase().equals(".png") || fileExtention.toLowerCase().equals(".bmp");
     }
 
     public File getFile() {
         return new File(path + File.separator + fileName);
+    }
+
+    public String getSizeString() {
+        return "" + size;
     }
 
     @Override
