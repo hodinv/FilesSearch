@@ -9,9 +9,14 @@ public class FileInfo {
     public final String fileName;
     @NonNull
     public final String path;
+
+    @NonNull
+    public final String fileExtention;
+
     public final long size;
     public final long createdAt;
     public final long modifiedAt;
+
 
     public FileInfo(@NonNull String fileName, @NonNull String path, long size, long createdAt, long modifiedAt) {
         this.fileName = fileName;
@@ -19,6 +24,8 @@ public class FileInfo {
         this.size = size;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+        int point = fileName.lastIndexOf('.');
+        fileExtention = point != -1 ? fileName.substring(point) : "";
     }
 
 

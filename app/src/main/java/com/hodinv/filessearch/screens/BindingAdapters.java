@@ -15,11 +15,5 @@ public class BindingAdapters {
         view.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    @BindingAdapter(value = {"app:adapter", "app:items"}, requireAll = true)
-    public static void setAdapterAndItems(RecyclerView list, ListAdapter adapter, List items) {
-        if (list.getAdapter() != adapter) {
-            list.setAdapter(adapter);
-        }
-        adapter.submitList(items);
-    }
+
 }

@@ -5,16 +5,28 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.hodinv.filessearch.R;
 import com.hodinv.filessearch.databinding.ListitemFilesinfoBinding;
 import com.hodinv.filessearch.model.FileInfo;
+import com.hodinv.filessearch.screens.search.SearchViewModel;
 
-public class FilesAdapter extends ListAdapter<FileInfo, FilesInfoViewHolder> {
-    public FilesAdapter() {
-        super(new Diff());
+import java.util.Collections;
+import java.util.List;
+
+public class FilesAdapter extends RecyclerView.Adapter<FilesInfoViewHolder> {
+    private final SearchViewModel viewModel;
+
+    private List<FileInfo> list = Collections.emptyList();
+
+    public FilesAdapter(SearchViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    void setList(List<FileInfo> newList) {
+        list = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -23,24 +35,18 @@ public class FilesAdapter extends ListAdapter<FileInfo, FilesInfoViewHolder> {
         ListitemFilesinfoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.listitem_filesinfo,
                 parent, false);
+        binding.setViewModel(viewModel);
         return new FilesInfoViewHolder(binding, binding.getRoot());
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return list.size();
     }
 
     @Override
     public void onBindViewHolder(@NonNull FilesInfoViewHolder holder, int position) {
-        holder.bind(getItem(position));
-    }
-
-    private static class Diff extends DiffUtil.ItemCallback<FileInfo> {
-
-        @Override
-        public boolean areItemsTheSame(@NonNull FileInfo oldItem, @NonNull FileInfo newItem) {
-            return oldItem.equals(newItem);
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull FileInfo oldItem, @NonNull FileInfo newItem) {
-            return oldItem.equals(newItem);
-        }
+        holder.bind(list.get(position));
     }
 }

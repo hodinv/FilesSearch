@@ -47,7 +47,7 @@ public class FilesInteractorImpl implements FilesInteractor {
                             } else {
                                 createdAt = file.lastModified();
                             }
-                            FileInfo fileInfo = new FileInfo(file.getName(), file.getPath(), file.length(),
+                            FileInfo fileInfo = new FileInfo(file.getName(), nextDirectory.getPath(), file.length(),
                                     createdAt, file.lastModified());
                             list.add(fileInfo);
                         }

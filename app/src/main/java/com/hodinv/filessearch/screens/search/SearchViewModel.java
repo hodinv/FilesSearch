@@ -4,10 +4,13 @@ import androidx.databinding.ObservableField;
 
 import com.hodinv.filessearch.interactors.service.ServiceInteractor;
 import com.hodinv.filessearch.model.FileInfo;
+import com.hodinv.filessearch.model.FileSort;
 import com.hodinv.filessearch.mvvm.BaseViewModel;
 import com.hodinv.filessearch.mvvm.RxBinding;
 import com.hodinv.filessearch.services.repository.FilesRepository;
 import com.hodinv.filessearch.services.repository.SearchRepository;
+import com.jakewharton.rxrelay2.BehaviorRelay;
+import com.jakewharton.rxrelay2.PublishRelay;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +28,7 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
     public ObservableField<List<FileInfo>> list = new ObservableField<>(Collections.emptyList());
 
     private ServiceInteractor serviceController;
+    private BehaviorRelay<FileSort> sortType = BehaviorRelay.createDefault(FileSort.NONE);
 
     @Inject
     public SearchViewModel(SearchRouter router, ServiceInteractor serviceController, SearchRepository searchRepository, FilesRepository filesRepository) {
@@ -37,14 +41,18 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
                 .subscribe(searchInfo -> info.set(
                         (searchInfo.search.isEmpty() ? "-" : searchInfo.found) + " / " + searchInfo.total
                 )));
-        addDisposable(filesRepository.getFiles().observeOn(AndroidSchedulers.mainThread()).subscribe(newList -> {
-            pending.set(newList.isEmpty());
+        addDisposable(filesRepository.getSortedFiles(sortType).observeOn(AndroidSchedulers.mainThread()).subscribe(newList -> {
+            pending.set(false);
             list.set(newList);
         }));
     }
 
     void onBack() {
         serviceController.stop();
+    }
+
+    void sort(FileSort fileSort) {
+        sortType.accept(fileSort);
     }
 
 }

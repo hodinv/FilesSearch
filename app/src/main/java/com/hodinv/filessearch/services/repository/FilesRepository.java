@@ -24,5 +24,5 @@ public interface FilesRepository {
 
 
     // return only if there are ready list
-    Observable<List<FileInfo>> getSortedFiles(FileSort sortType, boolean orderAscending);
+    Observable<List<FileInfo>> getSortedFiles(Observable<FileSort> sortType);
 }
