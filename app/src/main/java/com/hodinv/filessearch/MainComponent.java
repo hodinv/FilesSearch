@@ -6,6 +6,7 @@ import com.hodinv.filessearch.screens.RoutingModule;
 import com.hodinv.filessearch.screens.ViewModelModule;
 import com.hodinv.filessearch.screens.access.AccessFragment;
 import com.hodinv.filessearch.screens.access.AccessViewModel;
+import com.hodinv.filessearch.screens.detail.DetailFragment;
 import com.hodinv.filessearch.screens.search.SearchFragment;
 import com.hodinv.filessearch.services.repository.FilesRepository;
 import com.hodinv.filessearch.services.ServicesModule;
@@ -28,4 +29,5 @@ public interface MainComponent {
     void injectMainActivity(MainActivity activity);
     void injectAccessFragment(AccessFragment accessFragment);
     void injectSearchFragment(SearchFragment searchFragment);
+    void injectDetailFragment(DetailFragment detailFragment);
 }

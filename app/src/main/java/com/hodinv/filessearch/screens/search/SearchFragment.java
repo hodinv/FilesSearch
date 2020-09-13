@@ -82,4 +82,10 @@ public class SearchFragment extends BaseMvvmFragment<SearchViewModel> implements
         viewModel.onBack();
         return false;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.app_name);
+    }
 }

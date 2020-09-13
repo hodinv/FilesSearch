@@ -12,6 +12,8 @@ import com.hodinv.filessearch.services.repository.FilesRepository;
 import com.hodinv.filessearch.services.repository.FilesRepositoryImpl;
 import com.hodinv.filessearch.services.repository.SearchRepository;
 import com.hodinv.filessearch.services.repository.SearchRepositoryImpl;
+import com.hodinv.filessearch.services.toasts.ToastsService;
+import com.hodinv.filessearch.services.toasts.ToastsServiceImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -41,6 +43,12 @@ public class ServicesModule {
     @Provides
     public NotificationManager notificationManager(Context context) {
         return new NotificationManagerImpl(context);
+    }
+
+    @SingleApplicationScope
+    @Provides
+    public ToastsService toastsService(Context context) {
+        return new ToastsServiceImpl(context);
     }
 
 }

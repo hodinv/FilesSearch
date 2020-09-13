@@ -76,7 +76,7 @@ FilesInteractorImpl implements FilesInteractor {
             FileWriter writer = new FileWriter(destination);
             for (FileInfo info : items) {
                 if (!emitter.isDisposed()) {
-                    writer.write(info.path + File.pathSeparator + info.fileName + System.lineSeparator());
+                    writer.write(info.path + File.separator + info.fileName + System.lineSeparator());
                 }
             }
             writer.close();

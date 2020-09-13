@@ -11,6 +11,7 @@ import com.hodinv.filessearch.mvvm.RxBinding;
 import com.hodinv.filessearch.services.permissions.PermissionsManager;
 import com.hodinv.filessearch.services.repository.FilesRepository;
 import com.hodinv.filessearch.services.repository.SearchRepository;
+import com.hodinv.filessearch.services.toasts.ToastsService;
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import java.io.File;
@@ -31,6 +32,7 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
     public ObservableField<List<FileInfo>> list = new ObservableField<>(Collections.emptyList());
 
     private ServiceInteractor serviceController;
+    private ToastsService toastsService;
     private FilesInteractor filesInteractor;
     private BehaviorRelay<FileSort> sortType = BehaviorRelay.createDefault(FileSort.NONE);
     private PermissionsManager permissionsManager;
@@ -44,11 +46,13 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
             SearchRepository searchRepository,
             FilesRepository filesRepository,
             PermissionsManager permissionsManager,
-            FilesInteractor filesInteractor) {
+            FilesInteractor filesInteractor,
+            ToastsService toastsService) {
         super(router);
         this.permissionsManager = permissionsManager;
         this.serviceController = serviceController;
         this.filesInteractor = filesInteractor;
+        this.toastsService = toastsService;
         serviceController.start();
         addDisposable(RxBinding.toObservable(searchValue).debounce(300, TimeUnit.MILLISECONDS).subscribe(searchRepository::setSearchValue));
         addDisposable(searchRepository.
@@ -74,16 +78,20 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
     void save() {
         writePermissionGet.set(permissionsManager.isWritePermissionGranted().firstOrError().flatMapCompletable(granted -> {
             if (granted) {
-                return filesInteractor.saveToDisk(getDestination());
+                return filesInteractor.saveToDisk(getDestination()).andThen(toastsService.postToast("File saved"));
             } else {
                 permissionsManager.checkWrite();
-                return permissionsManager.isWritePermissionGranted().filter(granter -> granted).firstOrError().flatMapCompletable(dummy -> filesInteractor.saveToDisk(getDestination()));
+                return permissionsManager.isWritePermissionGranted().filter(granter -> granted).firstOrError().flatMapCompletable(dummy -> filesInteractor.saveToDisk(getDestination()).andThen(toastsService.postToast("File saved")));
             }
         }).subscribe());
     }
 
+    public void showDetail(FileInfo fileInfo) {
+        router.showDetail(fileInfo);
+    }
+
     private File getDestination() {
-        return new File(permissionsManager.topAccesibleFile().getPath() + File.pathSeparator + "files_list.txt");
+        return new File(permissionsManager.topAccesibleFile().getPath() + File.separator + "files_list.txt");
     }
 
 }

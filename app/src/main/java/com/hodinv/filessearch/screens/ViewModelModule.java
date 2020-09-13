@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.hodinv.filessearch.mvvm.ViewModelKey;
 import com.hodinv.filessearch.screens.access.AccessViewModel;
+import com.hodinv.filessearch.screens.detail.DetailViewModel;
 import com.hodinv.filessearch.screens.search.SearchViewModel;
 
 import dagger.Binds;
@@ -22,4 +23,9 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SearchViewModel.class)
     abstract ViewModel searchViewModel(SearchViewModel searchViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DetailViewModel.class)
+    abstract ViewModel detailViewModel(DetailViewModel detailViewModel);
 }

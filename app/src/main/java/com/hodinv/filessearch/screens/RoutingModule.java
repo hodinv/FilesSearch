@@ -3,6 +3,7 @@ package com.hodinv.filessearch.screens;
 import com.hodinv.filessearch.MainViewModel;
 import com.hodinv.filessearch.SingleApplicationScope;
 import com.hodinv.filessearch.screens.access.AccessRouter;
+import com.hodinv.filessearch.screens.detail.DetailRouter;
 import com.hodinv.filessearch.screens.search.SearchRouter;
 
 import dagger.Module;
@@ -27,5 +28,9 @@ public class RoutingModule {
         return mainViewModel;
     }
 
+    @Provides
+    DetailRouter getDetailRouter(MainViewModel mainViewModel) {
+        return mainViewModel;
+    }
 
 }

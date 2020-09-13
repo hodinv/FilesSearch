@@ -13,6 +13,7 @@ import android.os.Bundle;
 import com.hodinv.filessearch.mvvm.BackAware;
 import com.hodinv.filessearch.screens.Screen;
 import com.hodinv.filessearch.screens.access.AccessFragment;
+import com.hodinv.filessearch.screens.detail.DetailFragment;
 import com.hodinv.filessearch.screens.search.SearchFragment;
 import com.hodinv.filessearch.services.permissions.PermissionsManager;
 
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         viewModel.nextScreen.observe(this, next -> {
             if (next instanceof Screen.SearchScreen) {
                 startFragment(new SearchFragment());
+            }
+            if (next instanceof Screen.DetailScreen) {
+                startFragmentWithStacking(DetailFragment.getInstance(((Screen.DetailScreen) next).fileInfo));
             }
         });
         if (savedInstanceState == null) {
