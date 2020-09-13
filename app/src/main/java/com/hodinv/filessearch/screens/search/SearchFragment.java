@@ -56,6 +56,9 @@ public class SearchFragment extends BaseMvvmFragment<SearchViewModel> implements
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_save:
+                viewModel.save();
+                return true;
             case R.id.menu_sort_none:
                 viewModel.sort(FileSort.NONE);
                 return true;

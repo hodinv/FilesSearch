@@ -18,8 +18,8 @@ import io.reactivex.Observable;
 public class PermissionsManagerImpl implements PermissionsManager {
     private final Context context;
 
-    private final BehaviorRelay<Boolean> grantedRead = BehaviorRelay.create();
-    private final BehaviorRelay<Boolean> grantedWrite = BehaviorRelay.create();
+    private final BehaviorRelay<Boolean> grantedRead = BehaviorRelay.createDefault(false);
+    private final BehaviorRelay<Boolean> grantedWrite = BehaviorRelay.createDefault(false);
     private final PublishRelay<String[]> command = PublishRelay.create();
 
 

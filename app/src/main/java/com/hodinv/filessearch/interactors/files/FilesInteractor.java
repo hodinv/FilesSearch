@@ -6,4 +6,6 @@ import io.reactivex.Completable;
 
 public interface FilesInteractor {
     Completable getAllFiles(File topDirectory);
+
+    Completable saveToDisk(File destination);
 }

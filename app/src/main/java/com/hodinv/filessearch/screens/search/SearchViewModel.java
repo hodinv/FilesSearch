@@ -2,16 +2,18 @@ package com.hodinv.filessearch.screens.search;
 
 import androidx.databinding.ObservableField;
 
+import com.hodinv.filessearch.interactors.files.FilesInteractor;
 import com.hodinv.filessearch.interactors.service.ServiceInteractor;
 import com.hodinv.filessearch.model.FileInfo;
 import com.hodinv.filessearch.model.FileSort;
 import com.hodinv.filessearch.mvvm.BaseViewModel;
 import com.hodinv.filessearch.mvvm.RxBinding;
+import com.hodinv.filessearch.services.permissions.PermissionsManager;
 import com.hodinv.filessearch.services.repository.FilesRepository;
 import com.hodinv.filessearch.services.repository.SearchRepository;
 import com.jakewharton.rxrelay2.BehaviorRelay;
-import com.jakewharton.rxrelay2.PublishRelay;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.SerialDisposable;
 
 public class SearchViewModel extends BaseViewModel<SearchRouter> {
 
@@ -28,12 +31,24 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
     public ObservableField<List<FileInfo>> list = new ObservableField<>(Collections.emptyList());
 
     private ServiceInteractor serviceController;
+    private FilesInteractor filesInteractor;
     private BehaviorRelay<FileSort> sortType = BehaviorRelay.createDefault(FileSort.NONE);
+    private PermissionsManager permissionsManager;
+
+    private SerialDisposable writePermissionGet = new SerialDisposable();
 
     @Inject
-    public SearchViewModel(SearchRouter router, ServiceInteractor serviceController, SearchRepository searchRepository, FilesRepository filesRepository) {
+    public SearchViewModel(
+            SearchRouter router,
+            ServiceInteractor serviceController,
+            SearchRepository searchRepository,
+            FilesRepository filesRepository,
+            PermissionsManager permissionsManager,
+            FilesInteractor filesInteractor) {
         super(router);
+        this.permissionsManager = permissionsManager;
         this.serviceController = serviceController;
+        this.filesInteractor = filesInteractor;
         serviceController.start();
         addDisposable(RxBinding.toObservable(searchValue).debounce(300, TimeUnit.MILLISECONDS).subscribe(searchRepository::setSearchValue));
         addDisposable(searchRepository.
@@ -45,6 +60,7 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
             pending.set(false);
             list.set(newList);
         }));
+        addDisposable(writePermissionGet);
     }
 
     void onBack() {
@@ -53,6 +69,21 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
 
     void sort(FileSort fileSort) {
         sortType.accept(fileSort);
+    }
+
+    void save() {
+        writePermissionGet.set(permissionsManager.isWritePermissionGranted().firstOrError().flatMapCompletable(granted -> {
+            if (granted) {
+                return filesInteractor.saveToDisk(getDestination());
+            } else {
+                permissionsManager.checkWrite();
+                return permissionsManager.isWritePermissionGranted().filter(granter -> granted).firstOrError().flatMapCompletable(dummy -> filesInteractor.saveToDisk(getDestination()));
+            }
+        }).subscribe());
+    }
+
+    private File getDestination() {
+        return new File(permissionsManager.topAccesibleFile().getPath() + File.pathSeparator + "files_list.txt");
     }
 
 }

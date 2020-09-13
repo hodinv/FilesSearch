@@ -4,6 +4,8 @@ import com.hodinv.filessearch.model.FileInfo;
 import com.hodinv.filessearch.services.repository.FilesRepository;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -13,7 +15,8 @@ import java.util.Queue;
 import io.reactivex.Completable;
 import io.reactivex.schedulers.Schedulers;
 
-public class FilesInteractorImpl implements FilesInteractor {
+public class
+FilesInteractorImpl implements FilesInteractor {
 
     private final FilesRepository filesRepository;
 
@@ -37,19 +40,23 @@ public class FilesInteractorImpl implements FilesInteractor {
                         if (file.isDirectory()) {
                             directoriesToProcess.add(file);
                         } else {
+                            try {
+                                // based on https://stackoverflow.com/questions/2389225/android-how-to-get-a-files-creation-date
+                                long createdAt = 0;
 
-                            // based on https://stackoverflow.com/questions/2389225/android-how-to-get-a-files-creation-date
-                            long createdAt = 0;
-
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-                                createdAt = attr.creationTime().toMillis();
-                            } else {
-                                createdAt = file.lastModified();
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                    BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+                                    createdAt = attr.creationTime().toMillis();
+                                } else {
+                                    createdAt = file.lastModified();
+                                }
+                                FileInfo fileInfo = new FileInfo(file.getName(), nextDirectory.getPath(), file.length(),
+                                        createdAt, file.lastModified());
+                                list.add(fileInfo);
+                            } catch (IOException ex) {
+                                // it is NoSuchFileException
+                                // skippoing - file already removed
                             }
-                            FileInfo fileInfo = new FileInfo(file.getName(), nextDirectory.getPath(), file.length(),
-                                    createdAt, file.lastModified());
-                            list.add(fileInfo);
                         }
                     }
                     filesRepository.setProgress(list.size());
@@ -61,5 +68,21 @@ public class FilesInteractorImpl implements FilesInteractor {
                 emitter.onComplete();
             }
         }).subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Completable saveToDisk(File destination) {
+        return filesRepository.getFiles().filter(items -> !items.isEmpty()).firstOrError().flatMapCompletable(items -> Completable.create(emitter -> {
+            FileWriter writer = new FileWriter(destination);
+            for (FileInfo info : items) {
+                if (!emitter.isDisposed()) {
+                    writer.write(info.path + File.pathSeparator + info.fileName + System.lineSeparator());
+                }
+            }
+            writer.close();
+            if (!emitter.isDisposed()) {
+                emitter.onComplete();
+            }
+        })).subscribeOn(Schedulers.io());
     }
 }
