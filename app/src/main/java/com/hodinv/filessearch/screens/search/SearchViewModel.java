@@ -3,11 +3,14 @@ package com.hodinv.filessearch.screens.search;
 import androidx.databinding.ObservableField;
 
 import com.hodinv.filessearch.interactors.service.ServiceInteractor;
+import com.hodinv.filessearch.model.FileInfo;
 import com.hodinv.filessearch.mvvm.BaseViewModel;
 import com.hodinv.filessearch.mvvm.RxBinding;
 import com.hodinv.filessearch.services.repository.FilesRepository;
 import com.hodinv.filessearch.services.repository.SearchRepository;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -19,6 +22,7 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
     public ObservableField<String> searchValue = new ObservableField<>("");
     public ObservableField<Boolean> pending = new ObservableField<>(true);
     public ObservableField<String> info = new ObservableField<>("");
+    public ObservableField<List<FileInfo>> list = new ObservableField<>(Collections.emptyList());
 
     private ServiceInteractor serviceController;
 
@@ -33,7 +37,10 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
                 .subscribe(searchInfo -> info.set(
                         (searchInfo.search.isEmpty() ? "-" : searchInfo.found) + " / " + searchInfo.total
                 )));
-        addDisposable(filesRepository.getFiles().observeOn(AndroidSchedulers.mainThread()).subscribe(list -> pending.set(list.isEmpty())));
+        addDisposable(filesRepository.getFiles().observeOn(AndroidSchedulers.mainThread()).subscribe(newList -> {
+            pending.set(newList.isEmpty());
+            list.set(newList);
+        }));
     }
 
     void onBack() {

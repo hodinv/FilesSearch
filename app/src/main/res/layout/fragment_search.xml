@@ -7,6 +7,10 @@
         <variable
             name="viewModel"
             type="com.hodinv.filessearch.screens.search.SearchViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.hodinv.filessearch.screens.search.adapter.FilesAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,15 +35,26 @@
             android:id="@+id/info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@{viewModel.info}"
-            tools:text="1000/200"
-            android:gravity="end"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="end"
+            android:text="@{viewModel.info}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="1000/200" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:adapter="@{adapter}"
+            app:items="@{viewModel.list}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search" />
 
         <TextView
             android:layout_width="0dp"
@@ -49,6 +64,7 @@
             app:layout_constraintBottom_toTopOf="@id/info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search" />
+            app:layout_constraintTop_toBottomOf="@id/search"
+            app:visible="@{viewModel.pending}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

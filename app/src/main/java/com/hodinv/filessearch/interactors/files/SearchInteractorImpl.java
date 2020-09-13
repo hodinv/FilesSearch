@@ -33,6 +33,6 @@ public class SearchInteractorImpl implements SearchInteractor {
                     }
                     return new SearchInfo(search, count, progress);
                 }
-        ).doOnNext(item -> searchRepository.postSearchInfo(item)).subscribeOn(Schedulers.io());
+        ).doOnNext(searchRepository::postSearchInfo).subscribeOn(Schedulers.io());
     }
 }

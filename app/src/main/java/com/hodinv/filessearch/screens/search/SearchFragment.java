@@ -14,6 +14,7 @@ import com.hodinv.filessearch.R;
 import com.hodinv.filessearch.databinding.FragmentSearchBinding;
 import com.hodinv.filessearch.mvvm.BackAware;
 import com.hodinv.filessearch.mvvm.BaseMvvmFragment;
+import com.hodinv.filessearch.screens.search.adapter.FilesAdapter;
 
 public class SearchFragment extends BaseMvvmFragment<SearchViewModel> implements BackAware {
     @Override
@@ -36,6 +37,7 @@ public class SearchFragment extends BaseMvvmFragment<SearchViewModel> implements
                 false
         );
         binding.setViewModel(viewModel);
+        binding.setAdapter(new FilesAdapter());
         return binding.getRoot();
     }
 

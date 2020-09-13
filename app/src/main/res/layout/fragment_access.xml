@@ -12,13 +12,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="Application requires permissions to access files" />
 
         <Button
             android:id="@+id/button"
-            android:onClick="@{() -> viewModel.onAsk()}"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:onClick="@{() -> viewModel.onAsk()}"
+            android:text="Request permissions" />
     </LinearLayout>
 </layout>
