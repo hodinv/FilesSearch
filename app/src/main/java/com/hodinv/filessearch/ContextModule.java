@@ -1,4 +1,4 @@
-package com.hodinv.filessearch.interactors;
+package com.hodinv.filessearch;
 
 import android.content.Context;
 

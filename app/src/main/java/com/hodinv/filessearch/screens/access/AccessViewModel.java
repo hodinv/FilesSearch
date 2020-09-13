@@ -15,7 +15,7 @@ public class AccessViewModel extends BaseViewModel<AccessRouter> {
     public AccessViewModel(AccessRouter router, PermissionsManager permissionsManager) {
         super(router);
         this.permissionsManager = permissionsManager;
-        addDisposable(permissionsManager.areAllPermissionsReady().observeOn(AndroidSchedulers.mainThread())
+        addDisposable(permissionsManager.isReadPermissionGranted().observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                     if (result) {
                         router.showSearch();
@@ -24,7 +24,7 @@ public class AccessViewModel extends BaseViewModel<AccessRouter> {
     }
 
     public void onAsk() {
-        permissionsManager.request();
+        permissionsManager.checkRead();
     }
 
 }

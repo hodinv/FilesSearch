@@ -1,23 +1,40 @@
 package com.hodinv.filessearch;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.hodinv.filessearch.mvvm.BackAware;
 import com.hodinv.filessearch.screens.Screen;
 import com.hodinv.filessearch.screens.access.AccessFragment;
 import com.hodinv.filessearch.screens.search.SearchFragment;
+import com.hodinv.filessearch.services.permissions.PermissionsManager;
+
+import java.security.Permission;
 
 import javax.inject.Inject;
+
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.SerialDisposable;
 
 public class MainActivity extends AppCompatActivity {
 
 
     @Inject
     MainViewModel viewModel;
+
+    @Inject
+    PermissionsManager permissionsManager;
+
+    private SerialDisposable permissionsDisposable = new SerialDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         ApplicationFileSearch.get(this).injectMainActivity(this);
         viewModel.nextScreen.observe(this, next -> {
             if (next instanceof Screen.SearchScreen) {
-                startFragmentWithStacking(new SearchFragment());
+                startFragment(new SearchFragment());
             }
         });
         if (savedInstanceState == null) {
@@ -38,10 +55,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(Build.VERSION.SDK_INT >25){
-            startForegroundService(new Intent(this, MainService.class));
-        }else{
-            startService(new Intent(this, MainService.class));
+        permissionsDisposable.set(
+                permissionsManager.checkPermissionCommand().observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(permissions -> {
+                            ActivityCompat.requestPermissions(this,
+                                    permissions,
+                                    CODE_REQUEST_PERMISSIONS);
+                        })
+        );
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        permissionsDisposable.set(Completable.complete().subscribe());
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CODE_REQUEST_PERMISSIONS) {
+            for (int i = 0; i < permissions.length && i < grantResults.length; i++) {
+                permissionsManager.setGranted(permissions[i], grantResults[i] == PackageManager.PERMISSION_GRANTED);
+            }
         }
     }
 
@@ -69,6 +106,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT);
+        if (fragment instanceof BackAware) {
+            if (!((BackAware) fragment).onBack()) {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private static String TAG_FRAGMENT = "currentFragment";
+    private static int CODE_REQUEST_PERMISSIONS = 10101;
 
 }
+
+

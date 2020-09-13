@@ -3,7 +3,9 @@ package com.hodinv.filessearch.services;
 import android.content.Context;
 
 import com.hodinv.filessearch.SingleApplicationScope;
-import com.hodinv.filessearch.interactors.ContextModule;
+import com.hodinv.filessearch.ContextModule;
+import com.hodinv.filessearch.services.notification.NotificationManager;
+import com.hodinv.filessearch.services.notification.NotificationManagerImpl;
 import com.hodinv.filessearch.services.permissions.PermissionsManager;
 import com.hodinv.filessearch.services.permissions.PermissionsManagerImpl;
 import com.hodinv.filessearch.services.repository.FilesRepository;
@@ -34,4 +36,11 @@ public class ServicesModule {
     public PermissionsManager permissionsManager(Context context) {
         return new PermissionsManagerImpl(context);
     }
+
+    @SingleApplicationScope
+    @Provides
+    public NotificationManager notificationManager(Context context) {
+        return new NotificationManagerImpl(context);
+    }
+
 }

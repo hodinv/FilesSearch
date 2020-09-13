@@ -1,7 +1,6 @@
 package com.hodinv.filessearch;
 
-import com.hodinv.filessearch.interactors.ContextModule;
-import com.hodinv.filessearch.interactors.FilesInteractor;
+import com.hodinv.filessearch.interactors.files.FilesInteractor;
 import com.hodinv.filessearch.interactors.InteractorsModule;
 import com.hodinv.filessearch.screens.RoutingModule;
 import com.hodinv.filessearch.screens.ViewModelModule;

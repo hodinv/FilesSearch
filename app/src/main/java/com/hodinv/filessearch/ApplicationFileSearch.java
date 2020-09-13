@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 
-import com.hodinv.filessearch.interactors.ContextModule;
-
 public class ApplicationFileSearch extends Application {
 
 

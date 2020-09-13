@@ -1,8 +1,9 @@
 package com.hodinv.filessearch.services.repository;
 
-import android.database.Observable;
 
 import com.hodinv.filessearch.model.SearchInfo;
+
+import io.reactivex.Observable;
 
 public interface SearchRepository {
     void setSearchValue(String search);

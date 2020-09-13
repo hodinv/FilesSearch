@@ -42,6 +42,6 @@ public class AccessFragment extends BaseMvvmFragment<AccessViewModel> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //viewModel.onAsk();
+        viewModel.onAsk();
     }
 }

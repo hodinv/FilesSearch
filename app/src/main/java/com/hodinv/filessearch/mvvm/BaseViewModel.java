@@ -23,4 +23,5 @@ public abstract class BaseViewModel<Router extends MvvmRouter> extends ViewModel
         super.onCleared();
         disposable.clear();
     }
+
 }

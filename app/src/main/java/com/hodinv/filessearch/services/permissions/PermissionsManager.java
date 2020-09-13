@@ -6,10 +6,18 @@ import java.io.File;
 import io.reactivex.Observable;
 
 public interface PermissionsManager {
-    // request permissions or just populate current permissions
-    void request();
+    // check permissions, request of not all granted
+    void checkRead();
 
-    Observable<Boolean> areAllPermissionsReady();
+    void checkWrite();
+
+    Observable<Boolean> isReadPermissionGranted();
+
+    Observable<Boolean> isWritePermissionGranted();
+
+    Observable<String[]> checkPermissionCommand();
 
     File topAccesibleFile();
+
+    void setGranted(String permission, boolean granted);
 }

@@ -12,9 +12,10 @@ import androidx.databinding.DataBindingUtil;
 import com.hodinv.filessearch.MainComponent;
 import com.hodinv.filessearch.R;
 import com.hodinv.filessearch.databinding.FragmentSearchBinding;
+import com.hodinv.filessearch.mvvm.BackAware;
 import com.hodinv.filessearch.mvvm.BaseMvvmFragment;
 
-public class SearchFragment extends BaseMvvmFragment<SearchViewModel> {
+public class SearchFragment extends BaseMvvmFragment<SearchViewModel> implements BackAware {
     @Override
     public void inject(MainComponent component) {
         component.injectSearchFragment(this);
@@ -36,5 +37,11 @@ public class SearchFragment extends BaseMvvmFragment<SearchViewModel> {
         );
         binding.setViewModel(viewModel);
         return binding.getRoot();
+    }
+
+    @Override
+    public boolean onBack() {
+        viewModel.onBack();
+        return false;
     }
 }

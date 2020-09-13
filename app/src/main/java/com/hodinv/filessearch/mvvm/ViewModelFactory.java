@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+// see https://habr.com/ru/post/337320/
 public class ViewModelFactory implements ViewModelProvider.Factory {
     private final Map<Class<? extends ViewModel>, Provider<ViewModel>> viewModels;
 
