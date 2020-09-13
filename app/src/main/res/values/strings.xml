@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">FilesSearch</string>
+    <string name="toast_saved">File saved</string>
+    <string name="notification_title_files">Files list</string>
+    <string name="notification_title_search">Search : %1$s</string>
+    <string name="notification_search_info">Found %1$d in %2$d files</string>
+    <string name="notification_files_info">Files: %1$d</string>
+    <string name="notification_title_initial">Getting files list</string>
+    <string name="notification_ticker">Searching...</string>
+    <string name="notificastion_info_initial">Pending...</string>
+    <string name="channel_name">Screen service</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_sort_none">No sort</string>
+    <string name="menu_sort_name">Sort by Name</string>
+    <string name="menu_sort_modified">Sort by Modified</string>
+    <string name="menu_sort_ext">Sort by Extention</string>
+    <string name="search_hint">Type to stat searching</string>
+    <string name="waiting_for_files">Waiting for files...</string>
+    <string name="found">Found:</string>
+    <string name="path">Path:</string>
+    <string name="size">Size:</string>
+    <string name="created">Created</string>
+    <string name="modified">Modified</string>
+    <string name="permisions_info">Application requires permissions to access files</string>
+    <string name="permissions_button">Request permissions</string>
 </resources>

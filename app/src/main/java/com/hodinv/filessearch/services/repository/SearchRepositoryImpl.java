@@ -1,8 +1,6 @@
 package com.hodinv.filessearch.services.repository;
 
 
-import androidx.databinding.ObservableField;
-
 import com.hodinv.filessearch.model.SearchInfo;
 import com.jakewharton.rxrelay2.BehaviorRelay;
 

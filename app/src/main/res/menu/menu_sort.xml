@@ -4,19 +4,19 @@
     <item
         android:id="@+id/menu_save"
         android:icon="@drawable/ic_save"
-        android:title="Save"
+        android:title="@string/menu_save"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_sort_none"
-        android:title="No sort" />
+        android:title="@string/menu_sort_none" />
     <item
         android:id="@+id/menu_sort_name"
-        android:title="Sort by Name" />
+        android:title="@string/menu_sort_name" />
     <item
         android:id="@+id/menu_sort_modified"
-        android:title="Sort by Modified" />
+        android:title="@string/menu_sort_modified" />
     <item
         android:id="@+id/menu_sort_ext"
-        android:title="Sort by Extention" />
+        android:title="@string/menu_sort_ext" />
 
 </menu>

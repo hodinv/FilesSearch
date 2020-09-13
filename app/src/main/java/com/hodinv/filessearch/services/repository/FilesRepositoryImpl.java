@@ -13,7 +13,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
 public class FilesRepositoryImpl implements FilesRepository {

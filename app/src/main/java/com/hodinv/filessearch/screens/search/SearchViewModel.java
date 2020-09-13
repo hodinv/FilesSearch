@@ -2,6 +2,7 @@ package com.hodinv.filessearch.screens.search;
 
 import androidx.databinding.ObservableField;
 
+import com.hodinv.filessearch.R;
 import com.hodinv.filessearch.interactors.files.FilesInteractor;
 import com.hodinv.filessearch.interactors.service.ServiceInteractor;
 import com.hodinv.filessearch.model.FileInfo;
@@ -78,10 +79,10 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
     void save() {
         writePermissionGet.set(permissionsManager.isWritePermissionGranted().firstOrError().flatMapCompletable(granted -> {
             if (granted) {
-                return filesInteractor.saveToDisk(getDestination()).andThen(toastsService.postToast("File saved"));
+                return filesInteractor.saveToDisk(getDestination()).andThen(toastsService.postToast(R.string.toast_saved));
             } else {
                 permissionsManager.checkWrite();
-                return permissionsManager.isWritePermissionGranted().filter(granter -> granted).firstOrError().flatMapCompletable(dummy -> filesInteractor.saveToDisk(getDestination()).andThen(toastsService.postToast("File saved")));
+                return permissionsManager.isWritePermissionGranted().filter(granter -> granted).firstOrError().flatMapCompletable(dummy -> filesInteractor.saveToDisk(getDestination()).andThen(toastsService.postToast(R.string.toast_saved)));
             }
         }).subscribe());
     }

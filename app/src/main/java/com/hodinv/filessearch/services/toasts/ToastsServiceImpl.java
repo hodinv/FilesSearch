@@ -18,4 +18,9 @@ public class ToastsServiceImpl implements ToastsService {
     public Completable postToast(String value) {
         return Completable.fromAction(() -> Toast.makeText(context, value, Toast.LENGTH_SHORT).show()).subscribeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Completable postToast(int resId) {
+        return postToast(context.getResources().getString(resId));
+    }
 }

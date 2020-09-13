@@ -50,11 +50,11 @@ public class NotificationManagerImpl implements NotificationManager {
         if (builder == null) {
             getNotification();
         }
-        String title = "Getting files list";
-        String text = "Files: " + searchInfo.total;
+        String title = context.getResources().getString(R.string.notification_title_files);
+        String text = context.getResources().getString(R.string.notification_files_info, searchInfo.total);
         if (!searchInfo.search.isEmpty() && searchInfo.total > 0) {
-            title = "Search : " + searchInfo.search;
-            text = "Found " + searchInfo.found + " in " + searchInfo.total + " files";
+            title = context.getResources().getString(R.string.notification_title_search, searchInfo.search);
+            text = context.getResources().getString(R.string.notification_search_info, +searchInfo.found, searchInfo.total);
         }
         builder.setContentTitle(title)
                 .setContentText(text);
@@ -81,9 +81,9 @@ public class NotificationManagerImpl implements NotificationManager {
             builder.setChannelId(channelId);
         }
 
-        return builder.setContentTitle("Getting files list")
-                .setTicker("Searching...")
-                .setContentText("Pending...")
+        return builder.setContentTitle(context.getResources().getString(R.string.notification_title_initial))
+                .setTicker(context.getResources().getString(R.string.notification_ticker))
+                .setContentText(context.getResources().getString(R.string.notificastion_info_initial))
                 .setSmallIcon(R.drawable.ic_app_running)
                 .setLargeIcon(icon)
                 .setContentIntent(getNotificationIntent())
@@ -99,7 +99,7 @@ public class NotificationManagerImpl implements NotificationManager {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String createChannel() {
         String CHANNEL_ONE_ID = "Package.Service";
-        String CHANNEL_ONE_NAME = "Screen service";
+        String CHANNEL_ONE_NAME = context.getResources().getString(R.string.channel_name);
         NotificationChannel notificationChannel = null;
         notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
                 CHANNEL_ONE_NAME, android.app.NotificationManager.IMPORTANCE_MIN);
