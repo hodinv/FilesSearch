@@ -9,13 +9,12 @@ import androidx.databinding.BindingAdapter;
 import com.bumptech.glide.Glide;
 import com.hodinv.filessearch.model.FileInfo;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BindingAdapters {
 
-    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss z");
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss z");
 
     @BindingAdapter("app:date")
     public static void setVisibileByPAttern(TextView view, long date) {

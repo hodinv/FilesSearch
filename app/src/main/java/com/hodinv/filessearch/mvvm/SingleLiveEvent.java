@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SingleLiveEvent<T> extends MutableLiveData<T> {
 
-    private AtomicBoolean mPending = new AtomicBoolean(false);
+    private final AtomicBoolean mPending = new AtomicBoolean(false);
 
     @Override
     public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<? super T> observer) {

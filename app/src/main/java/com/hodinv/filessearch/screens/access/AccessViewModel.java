@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class AccessViewModel extends BaseViewModel<AccessRouter> {
 
-    PermissionsManager permissionsManager;
+    private final PermissionsManager permissionsManager;
 
     @Inject
     public AccessViewModel(AccessRouter router, PermissionsManager permissionsManager) {

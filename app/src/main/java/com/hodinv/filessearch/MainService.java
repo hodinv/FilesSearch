@@ -62,9 +62,7 @@ public class MainService extends Service {
 
         disposables.add(
                 searchInteractor.search().throttleLast(1, TimeUnit.SECONDS)
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(state -> {
-                    notificationManager.updateNotification(state);
-                })
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(state -> notificationManager.updateNotification(state))
         );
     }
 

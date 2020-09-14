@@ -9,7 +9,7 @@ import com.hodinv.filessearch.databinding.ListitemFilesinfoBinding;
 import com.hodinv.filessearch.model.FileInfo;
 
 public class FilesInfoViewHolder extends RecyclerView.ViewHolder {
-    private ListitemFilesinfoBinding binding;
+    private final ListitemFilesinfoBinding binding;
 
     public FilesInfoViewHolder(@NonNull ListitemFilesinfoBinding binding, @NonNull View itemView) {
         super(itemView);

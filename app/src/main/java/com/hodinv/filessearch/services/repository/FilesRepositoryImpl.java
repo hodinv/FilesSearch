@@ -17,14 +17,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class FilesRepositoryImpl implements FilesRepository {
 
-
-    private ArrayList<FileInfo> innerList = new ArrayList<>();
-    private BehaviorRelay<List<FileInfo>> list = BehaviorRelay.create();
-    private BehaviorRelay<Integer> progress = BehaviorRelay.create();
+    private final BehaviorRelay<List<FileInfo>> list = BehaviorRelay.create();
+    private final BehaviorRelay<Integer> progress = BehaviorRelay.create();
 
     @Override
     public void clearAll() {
-        innerList = new ArrayList<>();
         list.accept(new ArrayList());
         progress.accept(0);
     }

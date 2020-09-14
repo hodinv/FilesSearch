@@ -9,12 +9,10 @@ import com.hodinv.filessearch.screens.access.AccessRouter;
 import com.hodinv.filessearch.screens.detail.DetailRouter;
 import com.hodinv.filessearch.screens.search.SearchRouter;
 
-import javax.inject.Inject;
-
 public class MainViewModel implements AccessRouter, SearchRouter, DetailRouter {
 
-    private SingleLiveEvent<Screen> postNextScreen = new SingleLiveEvent<>();
-    public LiveData<Screen> nextScreen = postNextScreen;
+    private final SingleLiveEvent<Screen> postNextScreen = new SingleLiveEvent<>();
+    public final LiveData<Screen> nextScreen = postNextScreen;
 
     @Override
     public void showSearch() {

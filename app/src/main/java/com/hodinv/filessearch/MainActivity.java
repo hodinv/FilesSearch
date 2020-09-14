@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.hodinv.filessearch.mvvm.BackAware;
@@ -17,13 +15,10 @@ import com.hodinv.filessearch.screens.detail.DetailFragment;
 import com.hodinv.filessearch.screens.search.SearchFragment;
 import com.hodinv.filessearch.services.permissions.PermissionsManager;
 
-import java.security.Permission;
-
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.SerialDisposable;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     PermissionsManager permissionsManager;
 
-    private SerialDisposable permissionsDisposable = new SerialDisposable();
+    private final SerialDisposable permissionsDisposable = new SerialDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +56,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         permissionsDisposable.set(
                 permissionsManager.checkPermissionCommand().observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(permissions -> {
-                            ActivityCompat.requestPermissions(this,
-                                    permissions,
-                                    CODE_REQUEST_PERMISSIONS);
-                        })
+                        .subscribe(permissions -> ActivityCompat.requestPermissions(this,
+                                permissions,
+                                CODE_REQUEST_PERMISSIONS))
         );
     }
 
@@ -122,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private static String TAG_FRAGMENT = "currentFragment";
-    private static int CODE_REQUEST_PERMISSIONS = 10101;
+    private static final String TAG_FRAGMENT = "currentFragment";
+    private static final int CODE_REQUEST_PERMISSIONS = 10101;
 
 }
 

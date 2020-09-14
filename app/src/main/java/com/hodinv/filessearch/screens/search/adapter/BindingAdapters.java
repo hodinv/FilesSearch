@@ -3,7 +3,6 @@ package com.hodinv.filessearch.screens.search.adapter;
 import android.view.View;
 
 import androidx.databinding.BindingAdapter;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hodinv.filessearch.model.FileInfo;

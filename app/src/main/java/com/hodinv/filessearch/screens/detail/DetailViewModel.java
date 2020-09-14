@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 public class DetailViewModel extends BaseViewModel<DetailRouter> {
 
-    public ObservableField<FileInfo> info = new ObservableField<>();
+    public final ObservableField<FileInfo> info = new ObservableField<>();
 
     @Inject
     public DetailViewModel(DetailRouter router) {

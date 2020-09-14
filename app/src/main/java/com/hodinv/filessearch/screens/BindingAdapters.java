@@ -3,10 +3,6 @@ package com.hodinv.filessearch.screens;
 import android.view.View;
 
 import androidx.databinding.BindingAdapter;
-import androidx.recyclerview.widget.ListAdapter;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
 
 public class BindingAdapters {
 

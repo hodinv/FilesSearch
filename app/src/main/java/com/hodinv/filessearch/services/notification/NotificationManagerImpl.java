@@ -100,7 +100,7 @@ public class NotificationManagerImpl implements NotificationManager {
     private String createChannel() {
         String CHANNEL_ONE_ID = "Package.Service";
         String CHANNEL_ONE_NAME = context.getResources().getString(R.string.channel_name);
-        NotificationChannel notificationChannel = null;
+        NotificationChannel notificationChannel;
         notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
                 CHANNEL_ONE_NAME, android.app.NotificationManager.IMPORTANCE_MIN);
         notificationChannel.enableLights(true);

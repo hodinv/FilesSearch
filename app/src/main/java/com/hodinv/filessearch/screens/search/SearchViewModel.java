@@ -27,18 +27,18 @@ import io.reactivex.disposables.SerialDisposable;
 
 public class SearchViewModel extends BaseViewModel<SearchRouter> {
 
-    public ObservableField<String> searchValue = new ObservableField<>("");
-    public ObservableField<Boolean> pending = new ObservableField<>(true);
-    public ObservableField<String> info = new ObservableField<>("");
-    public ObservableField<List<FileInfo>> list = new ObservableField<>(Collections.emptyList());
+    public final ObservableField<String> searchValue = new ObservableField<>("");
+    public final ObservableField<Boolean> pending = new ObservableField<>(true);
+    public final ObservableField<String> info = new ObservableField<>("");
+    public final ObservableField<List<FileInfo>> list = new ObservableField<>(Collections.emptyList());
 
-    private ServiceInteractor serviceController;
-    private ToastsService toastsService;
-    private FilesInteractor filesInteractor;
-    private BehaviorRelay<FileSort> sortType = BehaviorRelay.createDefault(FileSort.NONE);
-    private PermissionsManager permissionsManager;
+    private final ServiceInteractor serviceController;
+    private final ToastsService toastsService;
+    private final FilesInteractor filesInteractor;
+    private final BehaviorRelay<FileSort> sortType = BehaviorRelay.createDefault(FileSort.NONE);
+    private final PermissionsManager permissionsManager;
 
-    private SerialDisposable writePermissionGet = new SerialDisposable();
+    private final SerialDisposable writePermissionGet = new SerialDisposable();
 
     @Inject
     public SearchViewModel(
@@ -82,7 +82,7 @@ public class SearchViewModel extends BaseViewModel<SearchRouter> {
                 return filesInteractor.saveToDisk(getDestination()).andThen(toastsService.postToast(R.string.toast_saved));
             } else {
                 permissionsManager.checkWrite();
-                return permissionsManager.isWritePermissionGranted().filter(granter -> granted).firstOrError().flatMapCompletable(dummy -> filesInteractor.saveToDisk(getDestination()).andThen(toastsService.postToast(R.string.toast_saved)));
+                return permissionsManager.isWritePermissionGranted().filter(granter -> granter).firstOrError().flatMapCompletable(dummy -> filesInteractor.saveToDisk(getDestination()).andThen(toastsService.postToast(R.string.toast_saved)));
             }
         }).subscribe());
     }

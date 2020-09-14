@@ -10,7 +10,7 @@ public abstract class BaseViewModel<Router extends MvvmRouter> extends ViewModel
 
     private final CompositeDisposable disposable = new CompositeDisposable();
 
-    public BaseViewModel(Router router) {
+    protected BaseViewModel(Router router) {
         this.router = router;
     }
 

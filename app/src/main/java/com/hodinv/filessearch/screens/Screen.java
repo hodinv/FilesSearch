@@ -4,7 +4,7 @@ import com.hodinv.filessearch.model.FileInfo;
 
 public class Screen {
 
-    public static class AccessScreen extends Screen {
+    private static class AccessScreen extends Screen {
 
     }
 

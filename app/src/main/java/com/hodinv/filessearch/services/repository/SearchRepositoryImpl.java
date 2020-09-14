@@ -8,8 +8,8 @@ import io.reactivex.Observable;
 
 public class SearchRepositoryImpl implements SearchRepository {
 
-    private BehaviorRelay<String> searchValue = BehaviorRelay.createDefault("");
-    private BehaviorRelay<SearchInfo> searchInfo = BehaviorRelay.create();
+    private final BehaviorRelay<String> searchValue = BehaviorRelay.createDefault("");
+    private final BehaviorRelay<SearchInfo> searchInfo = BehaviorRelay.create();
 
 
     @Override

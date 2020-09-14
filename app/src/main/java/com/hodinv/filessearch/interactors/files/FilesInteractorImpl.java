@@ -42,7 +42,7 @@ FilesInteractorImpl implements FilesInteractor {
                         } else {
                             try {
                                 // based on https://stackoverflow.com/questions/2389225/android-how-to-get-a-files-creation-date
-                                long createdAt = 0;
+                                long createdAt;
 
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                     BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);

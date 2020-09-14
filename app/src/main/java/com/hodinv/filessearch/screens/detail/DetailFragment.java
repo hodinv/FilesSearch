@@ -48,7 +48,7 @@ public class DetailFragment extends BaseMvvmFragment<DetailViewModel> {
         getActivity().setTitle(info.fileName);
     }
 
-    private static String ARG = "fileInfo";
+    private static final String ARG = "fileInfo";
 
     public static DetailFragment getInstance(FileInfo fileInfo) {
         DetailFragment fragment = new DetailFragment();

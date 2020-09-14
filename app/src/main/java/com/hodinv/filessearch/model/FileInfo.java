@@ -17,7 +17,7 @@ public class FileInfo implements Parcelable {
     @NonNull
     public final String fileExtention;
 
-    public final long size;
+    private final long size;
     public final long createdAt;
     public final long modifiedAt;
 
@@ -33,7 +33,7 @@ public class FileInfo implements Parcelable {
     }
 
 
-    protected FileInfo(Parcel in) {
+    private FileInfo(Parcel in) {
         fileName = in.readString();
         path = in.readString();
         fileExtention = in.readString();
